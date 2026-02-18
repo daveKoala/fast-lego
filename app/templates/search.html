@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Search</h1>
+<p>Submit a term to search seeded catalog items.</p>
+<form method="post" action="/search">
+  <label for="query">Search term</label>
+  <input id="query" name="query" type="text" value="{{ query }}" required />
+  <button type="submit">Search</button>
+</form>
+
+{% if error %}
+<p class="error">{{ error }}</p>
+{% endif %}
+
+{% if response %}
+<h2>Results for "{{ response.query }}"</h2>
+{% if response.results %}
+<ul class="results">
+  {% for item in response.results %}
+  <li><strong>{{ item.name }}</strong> ({{ item.category }}) - {{ item.description }}</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No matching catalog items found.</p>
+{% endif %}
+{% endif %}
+{% endblock %}
