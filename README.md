@@ -80,3 +80,4 @@ Build a lean production image (without pytest/httpx):
 ```bash
 docker build --target production -t fast-lego:prod .
 ```
+# fast-lego
