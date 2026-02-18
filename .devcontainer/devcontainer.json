@@ -1,0 +1,29 @@
+{
+  "name": "fast-lego",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "api",
+  "runServices": [
+    "api",
+    "db"
+  ],
+  "workspaceFolder": "/app",
+  "shutdownAction": "stopCompose",
+  "overrideCommand": false,
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.testing.pytestEnabled": true,
+        "python.testing.pytestArgs": [
+          "app"
+        ]
+      }
+    }
+  }
+}

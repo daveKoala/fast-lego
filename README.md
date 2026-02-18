@@ -47,6 +47,15 @@ Then open:
 - [http://localhost:8000/](http://localhost:8000/)
 - [http://localhost:8000/health](http://localhost:8000/health)
 
+## VS Code dev container
+This repo includes `/Users/davidclare/myprojects/fast-lego/.devcontainer/devcontainer.json`.
+
+In VS Code:
+1. Run `Dev Containers: Reopen in Container`.
+2. Select this workspace.
+
+The editor then uses the container Python interpreter, which fixes import resolution issues like `Import "fastapi" could not be resolved`.
+
 ## Run tests
 ```bash
 pytest
