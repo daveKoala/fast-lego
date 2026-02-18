@@ -1,50 +1,21 @@
-from pathlib import Path
-
 from sqlalchemy import or_
 from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
 from sqlmodel import Session, select
 
-from app.config import settings
 from app.db.Connection import get_session
 from app.db.models import CatalogItem, SearchLog
 from app.schemas.search import SearchForm, SearchResponse, SearchResultItem
+from app.web.context import template_context, templates
 
 router = APIRouter(tags=["pages"])
-templates = Jinja2Templates(directory=str(Path(__file__).resolve().parent.parent / "templates"))
-
-
-def _template_context(request: Request, **context: object) -> dict[str, object]:
-    base_context: dict[str, object] = {
-        "request": request,
-        "request_id": getattr(request.state, "request_id", None),
-    }
-    base_context.update(context)
-    return base_context
-
-
-@router.get("/", response_class=HTMLResponse)
-def welcome_page(request: Request) -> HTMLResponse:
-    return templates.TemplateResponse(
-        "welcome.html",
-        _template_context(request, app_name=settings.app_name, environment=settings.app_env),
-    )
-
-
-@router.get("/about", response_class=HTMLResponse)
-def about_page(request: Request) -> HTMLResponse:
-    return templates.TemplateResponse(
-        "about.html",
-        _template_context(request, app_name=settings.app_name),
-    )
 
 
 @router.get("/search", response_class=HTMLResponse)
 def search_page(request: Request) -> HTMLResponse:
     return templates.TemplateResponse(
         "search.html",
-        _template_context(request, response=None, error=None, query=""),
+        template_context(request, response=None, error=None, query=""),
     )
 
 
@@ -59,7 +30,7 @@ def search_submit(
     except Exception:
         return templates.TemplateResponse(
             "search.html",
-            _template_context(request, response=None, error="Please enter a valid search term.", query=query),
+            template_context(request, response=None, error="Please enter a valid search term.", query=query),
         )
 
     try:
@@ -79,7 +50,7 @@ def search_submit(
     except Exception:
         return templates.TemplateResponse(
             "search.html",
-            _template_context(
+            template_context(
                 request,
                 response=None,
                 error="Search is temporarily unavailable.",
@@ -104,5 +75,5 @@ def search_submit(
 
     return templates.TemplateResponse(
         "search.html",
-        _template_context(request, response=response, error=None, query=form.query),
+        template_context(request, response=response, error=None, query=form.query),
     )

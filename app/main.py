@@ -7,16 +7,16 @@ from fastapi.responses import JSONResponse
 from starlette import status
 
 from app.api.contracts import classify_error_action
-from app.api.health import router as health_router
-from app.api.pages import router as pages_router
+from app.api.routes import router as api_router
 from app.config import settings
 from app.db.Connection import create_db_and_tables, seed_catalog_items
+from app.web.routes import router as web_router
 
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title=settings.app_name, debug=settings.debug)
-app.include_router(health_router)
-app.include_router(pages_router)
+app.include_router(api_router)
+app.include_router(web_router)
 
 
 def _get_request_id(request: Request) -> str:

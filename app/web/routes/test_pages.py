@@ -1,8 +1,8 @@
 from fastapi.testclient import TestClient
 
-from app.api import pages
 from app.db.models import CatalogItem
 from app.main import app
+from app.web.routes import search as search_routes
 
 client = TestClient(app)
 
@@ -76,7 +76,7 @@ def test_search_submit_returns_catalog_results():
     _, dependency = _override_session(
         [CatalogItem(name="Galaxy Explorer", category="Space", description="Deep-space ship")]
     )
-    app.dependency_overrides[pages.get_session] = dependency
+    app.dependency_overrides[search_routes.get_session] = dependency
     try:
         response = client.post("/search", data={"query": "space"})
     finally:
@@ -90,7 +90,7 @@ def test_search_submit_returns_catalog_results():
 
 def test_search_submit_empty_results_message():
     _, dependency = _override_session([])
-    app.dependency_overrides[pages.get_session] = dependency
+    app.dependency_overrides[search_routes.get_session] = dependency
     try:
         response = client.post("/search", data={"query": "unknown"})
     finally:
@@ -105,7 +105,7 @@ def test_search_submit_still_renders_results_when_log_write_fails():
         [CatalogItem(name="Galaxy Explorer", category="Space", description="Deep-space ship")],
         fail_commit=True,
     )
-    app.dependency_overrides[pages.get_session] = dependency
+    app.dependency_overrides[search_routes.get_session] = dependency
     try:
         response = client.post("/search", data={"query": "space"})
     finally:
