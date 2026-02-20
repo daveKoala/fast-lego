@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>NASA</h1>
+<p>{{ app_name }} is a FastAPI service with server-rendered pages, API endpoints, and SQLModel data access.</p>
+
+{% if data.error %}
+<p class="error">{{ data.error }}</p>
+{% elif data.photos %}
+<section class="gallery">
+  {% for photo in data.photos %}
+  <figure class="glossy gallery-item">
+    <img src="{{ photo.img_src }}" alt="NASA rover photo from {{ photo.earth_date }}" loading="lazy" />
+    <figcaption>
+      <strong>{{ photo.rover.name if photo.rover else "Perseverance" }}</strong>
+      <span class="meta">{{ photo.camera.full_name if photo.camera else "Mars camera" }} | {{ photo.earth_date }}</span>
+    </figcaption>
+  </figure>
+  {% endfor %}
+</section>
+{% else %}
+<p>No images available right now.</p>
+{% endif %}
+{% endblock %}

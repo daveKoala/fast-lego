@@ -4,81 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ title if title else 'Fast Lego' }}</title>
-    <style>
-      body {
-        font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-        margin: 0;
-        background: #f7f7f7;
-        color: #1a1a1a;
-      }
-      header {
-        background: #0e7490;
-        color: white;
-        padding: 1rem 2rem;
-      }
-      nav a {
-        color: white;
-        margin-right: 1rem;
-        text-decoration: none;
-        font-weight: 600;
-      }
-      main {
-        max-width: 900px;
-        margin: 2rem auto;
-        background: white;
-        padding: 2rem;
-        border-radius: 10px;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-      }
-      .muted {
-        color: #666;
-      }
-      .error {
-        color: #b91c1c;
-        font-weight: 600;
-      }
-      .results li {
-        margin: 0.4rem 0;
-      }
-      input[type="text"] {
-        width: 100%;
-        padding: 0.6rem;
-        margin-top: 0.5rem;
-        margin-bottom: 1rem;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-      }
-      button {
-        background: #0e7490;
-        color: white;
-        border: none;
-        padding: 0.7rem 1rem;
-        border-radius: 8px;
-        cursor: pointer;
-      }
-      button:hover {
-        background: #155e75;
-      }
-      footer {
-        max-width: 900px;
-        margin: 0 auto 2rem;
-        color: #666;
-        font-size: 0.85rem;
-        text-align: right;
-      }
-    </style>
+    <link rel="stylesheet" href="{{ request.url_for('static', path='css/site.css') }}" />
   </head>
   <body>
-    <header>
+    <header class="glossy">
       <nav>
         <a href="/">Welcome</a>
         <a href="/about">About</a>
+        <a href="/nasa">NASA</a>
         <a href="/search">Search</a>
         <a href="/health">Health</a>
         <a href="/docs">API Docs</a>
       </nav>
     </header>
-    <main>
+    <main class="glossy">
       {% block content %}{% endblock %}
     </main>
     <footer>Request ID: {{ request_id }}</footer>

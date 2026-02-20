@@ -1,9 +1,11 @@
 import logging
+from pathlib import Path
 from uuid import uuid4
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 from starlette import status
 
 from app.api.contracts import classify_error_action
@@ -17,6 +19,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(title=settings.app_name, debug=settings.debug)
 app.include_router(api_router)
 app.include_router(web_router)
+app.mount("/static", StaticFiles(directory=str(Path(__file__).resolve().parent / "static")), name="static")
 
 
 def _get_request_id(request: Request) -> str:
